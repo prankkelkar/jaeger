@@ -22,7 +22,7 @@ ALL_SRC := $(shell find . -name '*.go' \
 # ALL_PKGS is used with 'go cover' and 'golint'
 ALL_PKGS := $(shell go list $(sort $(dir $(ALL_SRC))))
 
-RACE=-race
+RACE=
 GOTEST=go test -v $(RACE)
 GOLINT=golint
 GOVET=go vet
