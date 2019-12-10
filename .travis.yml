@@ -53,7 +53,7 @@ services:
 
 branches:
   only:
-    - s390x-travis
+    - s390x
 
 env:
   global:
