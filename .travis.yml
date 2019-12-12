@@ -7,26 +7,26 @@ dist: xenial
 
 matrix:
   include:
-  - arch: s390x
-    go: 1.13.x
-    env:
-    - TESTS=true
-    - COVERAGE=true
-    addons:
-      apt:
-        packages:
-        - jq
-        - time
+  # - arch: s390x
+  #   go: 1.13.x
+  #   env:
+  #   - TESTS=true
+  #   - COVERAGE=true
+  #   addons:
+  #     apt:
+  #       packages:
+  #       - jq
+  #       - time
   # - arch: s390x
   #   go: 1.13.x
   #   env:
   #   - PROTO_GEN_TEST=true
   
-  - arch: amd64
-    go: 1.13.x
-    env:
-    - TESTS=true
-    - COVERAGE=true
+  # - arch: amd64
+  #   go: 1.13.x
+  #   env:
+  #   - TESTS=true
+  #   - COVERAGE=true
   # - arch: amd64
   #   go: 1.13.x
   #   env:
@@ -36,10 +36,22 @@ matrix:
   #   go: 1.13.x
   #   env:
   #   - ALL_IN_ONE=true
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - CROSSDOCK=true
+  - arch: s390x
+    go: 1.13.x
+    env:
+    - CROSSDOCK=true
+    addons:
+      apt:
+        packages:
+        - python-pip
+        - libffi-dev
+        - libssl-dev
+        - python-backports.ssl-match-hostname
+  
+    - arch: amd64
+    go: 1.13.x
+    env:
+    - CROSSDOCK=true
   # - arch: s390x
   #   go: 1.13.x
   #   env:
