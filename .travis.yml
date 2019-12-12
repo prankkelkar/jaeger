@@ -8,10 +8,15 @@ dist: xenial
 matrix:
   include:
   - arch: s390x
-    go: 1.13.5
+    go: 1.13.x
     env:
     - TESTS=true
     - COVERAGE=true
+    addons:
+      apt:
+        packages:
+        - jq
+        - time
   # - arch: s390x
   #   go: 1.13.x
   #   env:
@@ -82,9 +87,6 @@ install:
   - docker rmi $(docker images -q) || true
   - mkdir -p /home/travis/gopath/bin
   - travis_retry make install-ci
-  - sudo apt-get update
-  - sudo apt-get install -y time jq
-  - which time
   - if [ "$ALL_IN_ONE" == true ]; then bash ./scripts/travis/install-ui-deps.sh ; fi
   - if [ "$DOCKER" == true ]; then bash ./scripts/travis/install-ui-deps.sh ; fi
   - if [ "$CROSSDOCK" == true ]; then bash ./scripts/travis/install-crossdock-deps.sh ; fi
