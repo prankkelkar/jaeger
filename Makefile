@@ -267,7 +267,7 @@ docker-images-jaeger-backend:
 	done
 
 .PHONY: docker-images-only
-docker-images-only: docker-images-cassandra docker-images-elastic docker-images-jaeger-backend
+docker-images-only: docker-images-elastic docker-images-jaeger-backend
 
 .PHONY: docker-push
 docker-push:
