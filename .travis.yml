@@ -83,7 +83,7 @@ install:
   - mkdir -p /home/travis/gopath/bin
   - travis_retry make install-ci
   - sudo apt-get update
-  - sudo apt-get install -y time
+  - sudo apt-get install -y time jq
   - which time
   - if [ "$ALL_IN_ONE" == true ]; then bash ./scripts/travis/install-ui-deps.sh ; fi
   - if [ "$DOCKER" == true ]; then bash ./scripts/travis/install-ui-deps.sh ; fi
