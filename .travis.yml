@@ -82,6 +82,8 @@ install:
   - docker rmi $(docker images -q) || true
   - mkdir -p /home/travis/gopath/bin
   - travis_retry make install-ci
+  - sudo apt-get update
+  - sudo apt-get install -y time
   - which time
   - if [ "$ALL_IN_ONE" == true ]; then bash ./scripts/travis/install-ui-deps.sh ; fi
   - if [ "$DOCKER" == true ]; then bash ./scripts/travis/install-ui-deps.sh ; fi
