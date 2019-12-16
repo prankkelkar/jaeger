@@ -115,7 +115,7 @@ install:
             wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/Protobuf/3.10.0/build_protobuf.sh ;
             bash build_protobuf.sh -y;
             mkdir -p "$HOME"/protoc/bin;
-            cp protoc "$HOME"/protoc/bin/ ;
+            cp /usr/local/bin/protoc "$HOME"/protoc/bin/ ;
         else
             curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.11.1/protoc-3.11.1-linux-x86_64.zip -o /tmp/protoc.zip ;
             unzip /tmp/protoc.zip -d "$HOME"/protoc      
