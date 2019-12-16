@@ -40,6 +40,9 @@ matrix:
 services:
   - docker
 
+branches:
+  only:
+    - candidate-PR
 env:
   global:
     - GO111MODULE=off
