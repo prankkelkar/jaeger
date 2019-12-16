@@ -17,10 +17,14 @@ matrix:
   #       packages:
   #       - jq
   #       - time
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - PROTO_GEN_TEST=true
+    - arch: s390x
+      go: 1.13.x
+      env:
+      - PROTO_GEN_TEST=true
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - PROTO_GEN_TEST=true
   
   # - arch: amd64
   #   go: 1.13.x
@@ -49,16 +53,16 @@ matrix:
   #   go: 1.13.x
   #   env:
   #   - CROSSDOCK=true
-    - arch: s390x
-      go: 1.13.x
-      env:
-      - DOCKER=true
-      - DEPLOY=true
-    - arch: amd64
-      go: 1.13.x
-      env:
-      - DOCKER=true
-      - DEPLOY=true    
+    # - arch: s390x
+    #   go: 1.13.x
+    #   env:
+    #   - DOCKER=true
+    #   - DEPLOY=true
+    # - arch: amd64
+    #   go: 1.13.x
+    #   env:
+    #   - DOCKER=true
+    #   - DEPLOY=true    
   # - arch: s390x
   #   go: 1.13.x
   #   env:
@@ -108,11 +112,14 @@ install:
     if [ "$PROTO_GEN_TEST" == true ]; then
         make proto-install
         if [[ $(uname -m) == 's390x' ]]; then
-            curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.11.1/protoc-3.11.1-linux-s390x_64.zip -o /tmp/protoc.zip ;
+            wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/Protobuf/3.10.0/build_protobuf.sh ;
+            bash build_protobuf.sh -y;
+            mkdir -p "$HOME"/protoc/bin;
+            cp protoc "$HOME"/protoc/bin/ ;
         else
             curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.11.1/protoc-3.11.1-linux-x86_64.zip -o /tmp/protoc.zip ;
+            unzip /tmp/protoc.zip -d "$HOME"/protoc      
         fi
-        unzip /tmp/protoc.zip -d "$HOME"/protoc
     fi
 
 script:
