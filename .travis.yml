@@ -3,7 +3,7 @@ sudo: required
 language: go
 go_import_path: github.com/jaegertracing/jaeger
 
-dist: xenial
+dist: trusty
 
 matrix:
   include:
@@ -92,7 +92,7 @@ env:
 
 install:
   - docker rmi $(docker images -q) || true
-  - mkdir -p /home/travis/gopath/bin
+  - if [ "$HOSTTYPE" == "s390x" ]; then mkdir -p $HOME/gopath/bin; fi
   - travis_retry make install-ci
   - if [ "$ALL_IN_ONE" == true ]; then bash ./scripts/travis/install-ui-deps.sh ; fi
   - if [ "$DOCKER" == true ]; then bash ./scripts/travis/install-ui-deps.sh ; fi
@@ -124,6 +124,7 @@ script:
   - if [ "$CASSANDRA_INTEGRATION_TEST" == true ]; then bash ./scripts/travis/cassandra-integration-test.sh ; else echo 'skipping cassandra integration test'; fi
   - if [ "$HOTROD" == true ]; then bash ./scripts/travis/hotrod-integration-test.sh ; else echo 'skipping hotrod example'; fi
   - if [ "$PROTO_GEN_TEST" == true ]; then make proto PROTOC=$HOME/protoc/bin/protoc && git diff --name-status --exit-code ; else echo 'skipping protoc validation'; fi
+
 after_success:
   - if [ "$COVERAGE" == true ]; then mv cover.out coverage.txt ; else echo 'skipping coverage'; fi
   - if [ "$COVERAGE" == true ]; then bash <(curl -s https://codecov.io/bash) ; else echo 'skipping coverage'; fi
