@@ -7,16 +7,22 @@ dist: xenial
 
 matrix:
   include:
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - TESTS=true
-  #   - COVERAGE=true
-  #   addons:
-  #     apt:
-  #       packages:
-  #       - jq
-  #       - time
+    - arch: s390x
+      go: 1.13.x
+      env:
+      - TESTS=true
+      - COVERAGE=true
+      addons:
+        apt:
+          packages:
+          - jq
+          - time
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - TESTS=true
+      - COVERAGE=true   
+
     - arch: s390x
       go: 1.13.x
       env:
@@ -25,62 +31,45 @@ matrix:
       go: 1.13.x
       env:
       - PROTO_GEN_TEST=true
-  
-  # - arch: amd64
-  #   go: 1.13.x
-  #   env:
-  #   - TESTS=true
-  #   - COVERAGE=true
-  # - arch: amd64
-  #   go: 1.13.x
-  #   env:
-  #   - PROTO_GEN_TEST=true
-  
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - ALL_IN_ONE=true
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - CROSSDOCK=true
-  #   addons:
-  #     apt:
-  #       packages:
-  #       - docker-compose
 
-  # - arch: amd64
-  #   go: 1.13.x
-  #   env:
-  #   - CROSSDOCK=true
-    # - arch: s390x
-    #   go: 1.13.x
-    #   env:
-    #   - DOCKER=true
-    #   - DEPLOY=true
-    # - arch: amd64
-    #   go: 1.13.x
-    #   env:
-    #   - DOCKER=true
-    #   - DEPLOY=true    
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - ES_INTEGRATION_TEST=true
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - KAFKA_INTEGRATION_TEST=true
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - CASSANDRA_INTEGRATION_TEST=true
-  # - arch: s390x
-  #   go: 1.13.x
-  #   env:
-  #   - HOTROD=true
+    - arch: s390x
+      go: 1.13.x
+      env:
+      - ALL_IN_ONE=true  
 
-
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - ALL_IN_ONE=true  
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - CROSSDOCK=true 
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - DOCKER=true
+      - DEPLOY=true
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - ES_INTEGRATION_TEST=true
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - KAFKA_INTEGRATION_TEST=true
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - CASSANDRA_INTEGRATION_TEST=true
+    - arch: s390x
+      go: 1.13.x
+      env:
+      - HOTROD=true
+    - arch: amd64
+      go: 1.13.x
+      env:
+      - HOTROD=true
 services:
   - docker
 
@@ -129,13 +118,12 @@ script:
   - if [ "$CROSSDOCK" == true ]; then bash ./scripts/travis/build-crossdock.sh ; else echo 'skipping crossdock'; fi
   - if [ "$DOCKER" == true ]; then bash ./scripts/travis/build-docker-images.sh ; else echo 'skipping build-docker-images'; fi
   - if [ "$DOCKER" == true ]; then bash ./scripts/travis/upload-all-docker-images.sh ; else echo 'skipping docker upload'; fi
-  - if [ "$DEPLOY" == true ]; then if [[ $(uname -m) == 's390x' ]]; then make build-binaries-linux; else make build-all-platforms; fi else echo 'skipping build-all-platforms'; fi
+  - if [ "$DEPLOY" == true ]; then make build-all-platforms ; else echo 'skipping build-all-platforms'; fi
   - if [ "$ES_INTEGRATION_TEST" == true ]; then bash ./scripts/travis/es-integration-test.sh ; else echo 'skipping elastic search integration test'; fi
   - if [ "$KAFKA_INTEGRATION_TEST" == true ]; then bash ./scripts/travis/kafka-integration-test.sh ; else echo 'skipping kafka integration test'; fi
   - if [ "$CASSANDRA_INTEGRATION_TEST" == true ]; then bash ./scripts/travis/cassandra-integration-test.sh ; else echo 'skipping cassandra integration test'; fi
   - if [ "$HOTROD" == true ]; then bash ./scripts/travis/hotrod-integration-test.sh ; else echo 'skipping hotrod example'; fi
   - if [ "$PROTO_GEN_TEST" == true ]; then make proto PROTOC=$HOME/protoc/bin/protoc && git diff --name-status --exit-code ; else echo 'skipping protoc validation'; fi
-
 after_success:
   - if [ "$COVERAGE" == true ]; then mv cover.out coverage.txt ; else echo 'skipping coverage'; fi
   - if [ "$COVERAGE" == true ]; then bash <(curl -s https://codecov.io/bash) ; else echo 'skipping coverage'; fi
