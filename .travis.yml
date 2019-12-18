@@ -86,8 +86,12 @@ after_success:
 after_failure:
   - if [ "$CROSSDOCK" == true ]; then make crossdock-logs ; else echo 'skipping crossdock'; fi
 
+
+
+
 before_deploy:
   - if [ "$DEPLOY" == true ]; then bash ./scripts/travis/package-deploy.sh ; else echo 'skipping deploying binaries'; fi
+
 
 deploy:
   provider: releases
