@@ -89,6 +89,7 @@ after_failure:
 before_deploy:
   - if [ "$DEPLOY" == true ]; then bash ./scripts/travis/package-deploy.sh ; else echo 'skipping deploying binaries'; fi
 
+
 deploy:
   provider: releases
   api_key:
