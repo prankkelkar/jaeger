@@ -247,11 +247,15 @@ build-binaries-windows:
 build-binaries-darwin:
 	GOOS=darwin $(MAKE) build-platform-binaries
 
+.PHONY: build-binaries-s390x
+build-binaries-s390x:
+	GOOS=linux GOARCH=s390x $(MAKE) build-platform-binaries
+
 .PHONY: build-platform-binaries
 build-platform-binaries: build-agent build-collector build-query build-ingester build-all-in-one build-examples
 
 .PHONY: build-all-platforms
-build-all-platforms: build-binaries-linux build-binaries-windows build-binaries-darwin
+build-all-platforms: build-binaries-linux build-binaries-windows build-binaries-darwin build-binaries-s390x
 
 .PHONY: docker-images-cassandra
 docker-images-cassandra:
