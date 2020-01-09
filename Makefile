@@ -214,11 +214,16 @@ build-all-in-one-linux: build-ui
 
 .PHONY: build-all-in-one
 build-all-in-one: elasticsearch-mappings
+
 	CGO_ENABLED=0 installsuffix=cgo go build -tags ui -o ./cmd/all-in-one/all-in-one-$(GOOS) $(BUILD_INFO) ./cmd/all-in-one/main.go
 
 .PHONY: build-agent
 build-agent:
+ifeq ($(GOARCH), s390x)
+	CGO_ENABLED=0 installsuffix=cgo go build -o ./cmd/agent/agent-$(GOOS)-$(GOARCH) $(BUILD_INFO) ./cmd/agent/main.go
+else
 	CGO_ENABLED=0 installsuffix=cgo go build -o ./cmd/agent/agent-$(GOOS) $(BUILD_INFO) ./cmd/agent/main.go
+endif
 
 .PHONY: build-query
 build-query:

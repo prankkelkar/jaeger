@@ -53,6 +53,8 @@ function package {
 # script start
 if [ "$DEPLOY" != true ]; then
     echo "Skipping the packaging of binaries as \$DEPLOY was not true."
+    pwd
+    ls cmd/agent/
     exit 0
 fi
 
