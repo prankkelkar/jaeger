@@ -13,9 +13,6 @@ matrix:
     - COVERAGE=true
   - go: "1.13.x"
     env:
-    - PROTO_GEN_TEST=true
-  - go: "1.13.x"
-    env:
     - ALL_IN_ONE=true
   - go: "1.13.x"
     env:
@@ -24,18 +21,7 @@ matrix:
     env:
     - DOCKER=true
     - DEPLOY=true
-  - go: "1.13.x"
-    env:
-    - ES_INTEGRATION_TEST=true
-  - go: "1.13.x"
-    env:
-    - KAFKA_INTEGRATION_TEST=true
-  - go: "1.13.x"
-    env:
-    - CASSANDRA_INTEGRATION_TEST=true
-  - go: "1.13.x"
-    env:
-    - HOTROD=true
+
 
 services:
   - docker
