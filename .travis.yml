@@ -58,6 +58,12 @@ script:
   - if [ "$HOTROD" == true ]; then bash ./scripts/travis/hotrod-integration-test.sh ; else echo 'skipping hotrod example'; fi
   - if [ "$PROTO_GEN_TEST" == true ]; then make proto PROTOC=$HOME/protoc/bin/protoc && git diff --name-status --exit-code ; else echo 'skipping protoc validation'; fi
   - ls ./cmd/agent/
+  - ls ./cmd/all-in-one/
+  - ls ./cmd/query/
+  - ls ./cmd/collector/
+  - ls ./cmd/ingester/
+  - ls ./examples/hotrod/
+
 after_success:
   - if [ "$COVERAGE" == true ]; then mv cover.out coverage.txt ; else echo 'skipping coverage'; fi
   - if [ "$COVERAGE" == true ]; then bash <(curl -s https://codecov.io/bash) ; else echo 'skipping coverage'; fi
